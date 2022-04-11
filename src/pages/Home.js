@@ -8,7 +8,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             items: [],
-            showAddForm: false
+            showAdd: false,
         }
     }
 
@@ -16,15 +16,24 @@ export default class Home extends Component {
         MockAPI.getListTodo().then(res => this.setState({ items: res }));
     }
 
-    toggleForm = () => this.setState({ showAddForm: !this.state.showAddForm });
+    showAddForm = () => this.setState({ showAdd: !this.state.showAdd });
 
-    onSubmitForm = (value) => {
-        console.log(value);
-        this.toggleForm();
+    getAddItem = (value) => {
+        const { item, level } = value;
+        const { items = [] } = this.state;
+        const i = {
+            id: this.state.items.length,
+            title: item,
+            level: level,
+        };
+        this.setState({
+            items: [...items, i],
+        })
+        this.showAddForm();
     }
 
     render() {
-        const { items = [], showAddForm } = this.state;
+        const { items = [], showAdd } = this.state;
         return (
             <div className="container">
                 <Title />
@@ -36,12 +45,12 @@ export default class Home extends Component {
                         <Sort />
                     </div>
                     <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-                        <button onClick={this.toggleForm} type="button" className="btn btn-info btn-block marginB10">Add Item</button>
+                        <button onClick={this.showAddForm} type="button" className="btn btn-info btn-block marginB10">Add Item</button>
                     </div>
                 </div>
                 <div className="row marginB10">
                     <div className="col-md-offset-7 col-md-5">
-                        <Form show={showAddForm} onSubmitForm={this.onSubmitForm} toggleForm={this.toggleForm} />
+                        <Form show={showAdd} getAddItem={this.getAddItem} showAddForm={this.showAddForm} />
                     </div>
                 </div>
                 <ListItem data={items} />

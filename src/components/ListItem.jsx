@@ -6,6 +6,7 @@ import RowItemEdit from './RowItemEdit';
 export default class ListItem extends Component {
     render() {
         const { data = [] } = this.props;
+        console.log(data);
         return (
             <div className="panel panel-success">
                 <div className="panel-heading">List Item</div>

@@ -5,30 +5,33 @@ export default class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            item: '',
             level: 0
         }
     }
 
-    handelChange = (e) => {
+    handleInput = (e) => {
         const { name, value } = e.target;
-
         this.setState({
             [name]: value
         })
     }
 
-    onSubmit = () => {
-        const { name, level } = this.state;
-        const { onSubmitForm = () => { } } = this.props;
-        onSubmitForm({name, level})
+    onSubmitForm = () => {
+        const { item, level } = this.state;
+        const { getAddItem = () => { } } = this.props;
+        getAddItem({item, level})
+        this.setState({
+            item: '',
+            level: 0,
+        })
     }
 
     render() {
-        const { name, level } = this.state;
+        const { item, level } = this.state;
         const {
             show = false,
-            toggleForm = () => { }
+            showAddForm = () => { }
         } = this.props;
 
         if (!show) return null;
@@ -36,15 +39,15 @@ export default class Form extends Component {
         return (
             <form className="form-inline">
                 <div className="form-group mr-5">
-                    <input value={name} type="text" name='name' onChange={this.handelChange} className="form-control" placeholder="Item Name" />
+                    <input value={item} type="text" name='item' onChange={this.handleInput} className="form-control" placeholder="Item Name" />
                 </div>
                 <div className="form-group mr-5">
-                    <select name='level' onChange={this.handelChange} className="form-control">
+                    <select name='level' onChange={this.handleInput} className="form-control">
                         {LEVEL_LIST.map(({ level: id, label }) => <option selected={level === id} key={id} value={id}>{label}</option>)}
                     </select>
                 </div>
-                <button type="button" className="btn btn-primary mr-5" onClick={this.onSubmit}>Submit</button>
-                <button type="button" className="btn btn-default" onClick={toggleForm}>Cancel</button>
+                <button type="button" className="btn btn-primary mr-5" onClick={this.onSubmitForm}>Submit</button>
+                <button type="button" className="btn btn-default" onClick={showAddForm}>Cancel</button>
             </form>
         )
     }
