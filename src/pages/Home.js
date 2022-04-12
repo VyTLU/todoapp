@@ -45,7 +45,7 @@ export default class Home extends Component {
         const { items = [], searchItem = '' } = this.state;
         const searchItems = items.filter((item) => {
             if(value === '') return item;
-            else return item.title.toLowerCase().includes(searchItem.toLowerCase());
+            return item.title.toLowerCase().includes(searchItem.toLowerCase());
 
         });
 

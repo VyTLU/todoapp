@@ -20,10 +20,10 @@ export default class ListItem extends Component {
     }
 
     cancelEdit = (e) => {
-        const editItems = editing.filter(item => item !== e);
+        // const editItems = editing.filter(item => item !== e);
 
         this.setState({
-            editing: editItems,
+            editing: [...this.state.editing.filter(item => item !== e)],
         }, () => console.log(this.state.editing))
     }
 
