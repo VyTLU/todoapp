@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, ListItem, Search, Sort, Title } from '../components';
 import { MockAPI } from '../services';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class Home extends Component {
 
@@ -8,13 +9,17 @@ export default class Home extends Component {
         super(props);
         this.state = {
             items: [],
+            usedItems: [],
             showAdd: false,
             searchItem: '',
         }
     }
 
     componentDidMount() {
-        MockAPI.getListTodo().then(res => this.setState({ items: res }));
+        MockAPI.getListTodo().then(res => this.setState({ 
+            items: res,
+            usedItems: res,
+        }));
     }
 
     showAddForm = () => this.setState({ showAdd: !this.state.showAdd });
@@ -22,30 +27,47 @@ export default class Home extends Component {
     getAddItem = (value) => {
         const { item, level } = value;
         const { items = [] } = this.state;
+        console.log(items);
         const i = {
-            id: this.state.items.length,
+            id: uuidv4(),
             title: item,
             level: level,
         };
+        console.log()
         this.setState({
             items: [...items, i],
+            usedItems: [...items, i],
         })
         this.showAddForm();
     }
 
-    getSearchItem = (value) => {
+    getSearchItem = (value = '') => {
         const { items = [], searchItem = '' } = this.state;
-        const searchItems = items.filter(item => item.title.includes(searchItem));
-        console.log(searchItems);
+        const searchItems = items.filter((item) => {
+            if(value === '') return item;
+            else return item.title.toLowerCase().includes(searchItem.toLowerCase());
+
+        });
 
         this.setState({
             searchItem: value,
-            items: searchItems,
-        }, () => console.log(this.state.items))
+            usedItems: searchItems,
+        }, () => console.log(this.state.usedItems))
+    }
+
+    getDeleteItem = (value) => {
+        const { items = [], usedItems = [] } = this.state;
+        const deletedItems = usedItems.filter(item => item.id !== value);
+        
+        this.setState({
+            items: deletedItems,
+            usedItems: deletedItems,
+        }, () => console.log(items))
     }
 
     render() {
-        const { items = [], showAdd } = this.state;
+        const { usedItems = [], showAdd } = this.state;
+        // console.log(usedItems)
         return (
             <div className="container">
                 <Title />
@@ -65,7 +87,7 @@ export default class Home extends Component {
                         <Form show={showAdd} getAddItem={this.getAddItem} showAddForm={this.showAddForm} />
                     </div>
                 </div>
-                <ListItem data={items} />
+                <ListItem data={usedItems} getDeleteItem={this.getDeleteItem} />
             </div>
         )
     }

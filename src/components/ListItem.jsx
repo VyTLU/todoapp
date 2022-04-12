@@ -4,8 +4,34 @@ import RowItem from './RowItem';
 import RowItemEdit from './RowItemEdit';
 
 export default class ListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            editing: [],
+        }
+    }
+
+    deleteItem = (e) => this.props.getDeleteItem(e);
+
+    editItem = (e) => {
+        this.setState({
+            editing: [...this.state.editing, e],
+        }, () => console.log(this.state.editing))
+    }
+
+    cancelEdit = (e) => {
+        const editItems = editing.filter(item => item !== e);
+
+        this.setState({
+            editing: editItems,
+        }, () => console.log(this.state.editing))
+    }
+
     render() {
+        const { editing = [] } = this.state;
+        // console.log(editing);
         const { data = [] } = this.props;
+        // console.log(data)
         return (
             <div className="panel panel-success">
                 <div className="panel-heading">List Item</div>
@@ -20,7 +46,13 @@ export default class ListItem extends Component {
                     </thead>
                     <tbody>
                         {
-                            data.map((item, index) => <RowItem item={item} index={index} key={item.id} />)
+                            data.map((item, index) => (
+                                !editing.includes(index)
+                                ?
+                                <RowItem item={item} index={index} key={item.id} deleteItem={this.deleteItem} editItem={this.editItem} />
+                                :
+                                <RowItemEdit item={item} index={index} key={item.id} cancelEdit={this.cancelEdit} />)
+                            )
                         }
                     </tbody>
                 </table>

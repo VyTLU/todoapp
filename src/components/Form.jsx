@@ -21,7 +21,8 @@ export default class Form extends Component {
     onSubmitForm = () => {
         const { item, level } = this.state;
         const { getAddItem = () => { } } = this.props;
-        getAddItem({item, level})
+        
+        if(item) getAddItem({item, level})
         this.setState({
             item: '',
             level: 0,
