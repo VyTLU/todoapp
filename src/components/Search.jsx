@@ -1,12 +1,37 @@
 import React, { Component } from 'react'
 
 export default class Search extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            searchItem: '',
+        }
+    }
+
+    handleInput = (e) => {
+        const { value } = e.target;
+        const { getSearchItem = () => { } } = this.props;
+
+        this.setState({
+            searchItem: value,
+        }, getSearchItem(value))
+    }
+
+    clearInput = () => {
+        this.setState({
+            searchItem: '',
+        })
+    }
+
     render() {
+        const { searchItem } = this.state;
+
         return (
             <div className="input-group">
-                <input type="text" className="form-control" placeholder="Search item name" />
+                <input value={searchItem} type="text" className="form-control" placeholder="Search item name" onChange={this.handleInput} />
                 <span className="input-group-btn">
-                    <button className="btn btn-info" type="button">Clear</button>
+                    <button className="btn btn-info" type="button" onClick={this.clearInput}>Clear</button>
                 </span>
             </div>
         )

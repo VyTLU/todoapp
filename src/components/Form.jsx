@@ -12,8 +12,9 @@ export default class Form extends Component {
 
     handleInput = (e) => {
         const { name, value } = e.target;
+        
         this.setState({
-            [name]: value
+            [name]: name === 'level' ? Number(value) : value
         })
     }
 

@@ -9,6 +9,7 @@ export default class Home extends Component {
         this.state = {
             items: [],
             showAdd: false,
+            searchItem: '',
         }
     }
 
@@ -32,6 +33,17 @@ export default class Home extends Component {
         this.showAddForm();
     }
 
+    getSearchItem = (value) => {
+        const { items = [], searchItem = '' } = this.state;
+        const searchItems = items.filter(item => item.title.includes(searchItem));
+        console.log(searchItems);
+
+        this.setState({
+            searchItem: value,
+            items: searchItems,
+        }, () => console.log(this.state.items))
+    }
+
     render() {
         const { items = [], showAdd } = this.state;
         return (
@@ -39,7 +51,7 @@ export default class Home extends Component {
                 <Title />
                 <div className="row">
                     <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <Search />
+                        <Search getSearchItem={this.getSearchItem} />
                     </div>
                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         <Sort />
