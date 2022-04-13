@@ -65,32 +65,33 @@ export default class Home extends Component {
         })
     }
 
-    onEditItem = (value) => {
-        const { itemEdit, level, item } = value;
+    onEditedItem = (id, item) => {
+        const { title, level } = item || {};
         const { items = [], usedItems = [] } = this.state;
-        let check = 0;
-        let temp = item;
+        const copyUsedItems = [...usedItems];
+        const copyItems = [...items];
+        const foundItem = usedItems.find(x=>x.id === id);
+        const foundUsedItemIndex = usedItems.findIndex(x=>x.id === id);
+        const foundItemIndex = items.findIndex(x=>x.id === id);
 
-        if(itemEdit !== item.title){
-            temp.title = itemEdit;
-            check++;
-        } else if(level !== item.level){
-            temp.level = level;
-            check++;
-        }
+        if(!foundItem) return;
+        if(foundItem?.title === title && foundItem?.level === parseInt(level)) return;
 
-        if(check > 0){
-            const position = items.indexOf(item);
-            console.log(position);
-            this.setState({
-                items: items.splice(position, 1, temp),
-                usedItems: [...usedItems, usedItems.splice(position, 1, temp)],
-            }, () => console.log(items))
-        }
+        copyUsedItems[foundUsedItemIndex] = {level, title, id};
+        copyItems[foundItemIndex] = {level, title, id};
+
+        this.setState({
+            items: copyItems,
+            usedItems: copyUsedItems,
+        }, () => {
+            console.log(items)
+            console.log(usedItems)
+        })
     }
 
     render() {
         const { usedItems = [], showAdd } = this.state;
+        console.log('UsedItems: ', usedItems)
         
         return (
             <div className="container">
@@ -111,7 +112,7 @@ export default class Home extends Component {
                         <Form show={showAdd} onAddItem={this.onAddItem} showAddForm={this.showAddForm} />
                     </div>
                 </div>
-                <ListItem data={usedItems} onDeleteItem={this.onDeleteItem} onEditItem={this.onEditItem} />
+                <ListItem data={usedItems} onDeleteItem={this.onDeleteItem} onEditedItem={this.onEditedItem} />
             </div>
         )
     }

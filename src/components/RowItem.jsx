@@ -29,8 +29,8 @@ export default class RowItem extends Component {
     }
 
     editItemBtn = () => {
-        const { editItem = () => {}, index = 0 } = this.props;
-        editItem(index);
+        const { editItem = () => {}, item: {id} = {} } = this.props;
+        editItem(id);
     }
 
     render() {
