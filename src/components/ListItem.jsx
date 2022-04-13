@@ -8,30 +8,31 @@ export default class ListItem extends Component {
         super(props);
         this.state = {
             editing: [],
+            itemEdit: '',
+            level: 0,
         }
     }
 
-    deleteItem = (e) => this.props.getDeleteItem(e);
+    deleteItem = (e) => this.props.onDeleteItem(e);
 
     editItem = (e) => {
         this.setState({
             editing: [...this.state.editing, e],
-        }, () => console.log(this.state.editing))
+        })
     }
 
     cancelEdit = (e) => {
-        // const editItems = editing.filter(item => item !== e);
-
         this.setState({
             editing: [...this.state.editing.filter(item => item !== e)],
-        }, () => console.log(this.state.editing))
+        })
     }
+
+    save = (value) => this.props.onEditItem(value);
 
     render() {
         const { editing = [] } = this.state;
-        // console.log(editing);
         const { data = [] } = this.props;
-        // console.log(data)
+        
         return (
             <div className="panel panel-success">
                 <div className="panel-heading">List Item</div>
@@ -51,7 +52,7 @@ export default class ListItem extends Component {
                                 ?
                                 <RowItem item={item} index={index} key={item.id} deleteItem={this.deleteItem} editItem={this.editItem} />
                                 :
-                                <RowItemEdit item={item} index={index} key={item.id} cancelEdit={this.cancelEdit} />)
+                                <RowItemEdit item={item} index={index} key={item.id} cancelEdit={this.cancelEdit} save={this.save} />)
                             )
                         }
                     </tbody>

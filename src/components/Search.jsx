@@ -11,11 +11,11 @@ export default class Search extends Component {
 
     handleInput = (e) => {
         const { value } = e.target;
-        const { getSearchItem = () => { } } = this.props;
+        const { onSearchItem = () => { } } = this.props;
 
         this.setState({
             searchItem: value,
-        }, getSearchItem(value))
+        }, onSearchItem(value))
     }
 
     clearInput = () => {

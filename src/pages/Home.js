@@ -24,16 +24,16 @@ export default class Home extends Component {
 
     showAddForm = () => this.setState({ showAdd: !this.state.showAdd });
 
-    getAddItem = (value) => {
+    onAddItem = (value) => {
         const { item, level } = value;
         const { items = [] } = this.state;
-        console.log(items);
+        
         const i = {
             id: uuidv4(),
             title: item,
             level: level,
         };
-        console.log()
+        
         this.setState({
             items: [...items, i],
             usedItems: [...items, i],
@@ -41,7 +41,7 @@ export default class Home extends Component {
         this.showAddForm();
     }
 
-    getSearchItem = (value = '') => {
+    onSearchItem = (value = '') => {
         const { items = [], searchItem = '' } = this.state;
         const searchItems = items.filter((item) => {
             if(value === '') return item;
@@ -52,28 +52,52 @@ export default class Home extends Component {
         this.setState({
             searchItem: value,
             usedItems: searchItems,
-        }, () => console.log(this.state.usedItems))
+        })
     }
 
-    getDeleteItem = (value) => {
-        const { items = [], usedItems = [] } = this.state;
+    onDeleteItem = (value) => {
+        const { usedItems = [] } = this.state;
         const deletedItems = usedItems.filter(item => item.id !== value);
         
         this.setState({
             items: deletedItems,
             usedItems: deletedItems,
-        }, () => console.log(items))
+        })
+    }
+
+    onEditItem = (value) => {
+        const { itemEdit, level, item } = value;
+        const { items = [], usedItems = [] } = this.state;
+        let check = 0;
+        let temp = item;
+
+        if(itemEdit !== item.title){
+            temp.title = itemEdit;
+            check++;
+        } else if(level !== item.level){
+            temp.level = level;
+            check++;
+        }
+
+        if(check > 0){
+            const position = items.indexOf(item);
+            console.log(position);
+            this.setState({
+                items: items.splice(position, 1, temp),
+                usedItems: [...usedItems, usedItems.splice(position, 1, temp)],
+            }, () => console.log(items))
+        }
     }
 
     render() {
         const { usedItems = [], showAdd } = this.state;
-        // console.log(usedItems)
+        
         return (
             <div className="container">
                 <Title />
                 <div className="row">
                     <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <Search getSearchItem={this.getSearchItem} />
+                        <Search onSearchItem={this.onSearchItem} />
                     </div>
                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         <Sort />
@@ -84,10 +108,10 @@ export default class Home extends Component {
                 </div>
                 <div className="row marginB10">
                     <div className="col-md-offset-7 col-md-5">
-                        <Form show={showAdd} getAddItem={this.getAddItem} showAddForm={this.showAddForm} />
+                        <Form show={showAdd} onAddItem={this.onAddItem} showAddForm={this.showAddForm} />
                     </div>
                 </div>
-                <ListItem data={usedItems} getDeleteItem={this.getDeleteItem} />
+                <ListItem data={usedItems} onDeleteItem={this.onDeleteItem} onEditItem={this.onEditItem} />
             </div>
         )
     }

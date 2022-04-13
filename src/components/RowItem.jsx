@@ -3,7 +3,7 @@ import { LEVEL_LIST } from '../common/Constants';
 import Swal from 'sweetalert2'
 
 export default class RowItem extends Component {
-    getLevel = (level) => LEVEL_LIST.find(x => x.level === level);
+    getLevel = (level) => LEVEL_LIST.find(x => x.level === Number(level));
 
     deleteItemBtn = () => {
         const { item = {}, deleteItem = () => {} } = this.props;

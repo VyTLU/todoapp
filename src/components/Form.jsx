@@ -14,15 +14,15 @@ export default class Form extends Component {
         const { name, value } = e.target;
         
         this.setState({
-            [name]: name === 'level' ? Number(value) : value
+            [name]: value
         })
     }
 
     onSubmitForm = () => {
         const { item, level } = this.state;
-        const { getAddItem = () => { } } = this.props;
+        const { onAddItem = () => { } } = this.props;
         
-        if(item) getAddItem({item, level})
+        if(item) onAddItem({item, level})
         this.setState({
             item: '',
             level: 0,
