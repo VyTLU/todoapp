@@ -38,8 +38,8 @@ export default class ListItemEdit extends Component {
                 <td className="text-center">{index + 1}</td>
                 <td><input type="text" className="form-control" value={title} onChange={this.handleInput} name='title' /></td>
                 <td className="text-center">
-                    <select name='level' onChange={this.handleInput} className="form-control">
-                        {LEVEL_LIST.map(({ level: id, label }) => <option selected={item?.level === id} key={id} value={id}>{label}</option>)}
+                    <select name='level' onChange={this.handleInput} className="form-control" value={item?.level}>
+                        {LEVEL_LIST.map(({ level: id, label }) => <option key={id} value={id}>{label}</option>)}
                     </select>
                 </td>
                 <td>

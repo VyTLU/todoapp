@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Form, ListItem, Search, Sort, Title } from '../components';
 import { MockAPI } from '../services';
 import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
 
 export default class Home extends Component {
 
@@ -12,6 +13,7 @@ export default class Home extends Component {
             usedItems: [],
             showAdd: false,
             searchItem: '',
+            label: 'NAME - DESC',
         }
     }
 
@@ -83,15 +85,42 @@ export default class Home extends Component {
         this.setState({
             items: copyItems,
             usedItems: copyUsedItems,
-        }, () => {
-            console.log(items)
-            console.log(usedItems)
         })
+    }
+
+    changeLabel = (data) => {
+        const label = (data === '1' || data === '2') ? 'name' : 'level';
+        const type = (data === '1' || data === '3') ? 'ASC' : 'DESC';
+
+        this.setState({
+            label: `${label.toUpperCase()} - ${type}`
+        })
+    }
+
+    onSortItem = (e) => {
+        const { usedItems = [] } = this.state;
+        const data = e.target.getAttribute('data-value');
+        let copyItems = [...usedItems];
+        
+        if(data === '1'){
+            copyItems = _.orderBy(copyItems, ['title', 'level'], ['asc', 'asc']);
+        } else if(data === '2'){
+            copyItems = _.orderBy(copyItems, ['title', 'level'], ['desc', 'asc']);
+        } else if(data === '3'){
+            copyItems = _.orderBy(copyItems, ['level', 'title'], ['asc', 'asc']);
+        } else{
+            copyItems = _.orderBy(copyItems, ['level', 'title'], ['desc', 'asc']);
+        }
+
+        this.setState({
+            usedItems: copyItems,
+        })
+
+        this.changeLabel(data);
     }
 
     render() {
         const { usedItems = [], showAdd } = this.state;
-        console.log('UsedItems: ', usedItems)
         
         return (
             <div className="container">
@@ -101,7 +130,7 @@ export default class Home extends Component {
                         <Search onSearchItem={this.onSearchItem} />
                     </div>
                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <Sort />
+                        <Sort onSortItem={this.onSortItem} changeLabel={this.state.label} />
                     </div>
                     <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                         <button onClick={this.showAddForm} type="button" className="btn btn-info btn-block marginB10">Add Item</button>
