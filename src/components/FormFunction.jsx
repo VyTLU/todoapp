@@ -5,12 +5,14 @@ import { LEVEL_LIST } from '../common/Constants';
 const FormFunction = ({
     showAddForm = () => {},
     show = false,
+    onAddItem = () => {},
 }) => {
-    const [item, setName] = useState('');
-    const [level, setLevel] = useState('');
+    const [item, setItem] = useState('');
+    const [level, setLevel] = useState(0);
     
-    const handleNameChange = (e) => setName(e.target.value);
+    const handleNameChange = (e) => setItem(e.target.value);
     const handleLevelChange = (e) => setLevel(e.target.value);
+    const onSubmitForm = () => {};
 
     if (!show) return null;
     return(
@@ -23,7 +25,7 @@ const FormFunction = ({
                         {LEVEL_LIST.map(({ level: id, label }) => <option selected={level === id} key={id} value={id}>{label}</option>)}
                     </select>
                 </div>
-                <button type="button" className="btn btn-primary mr-5" onClick={this.onSubmitForm}>Submit</button>
+                <button type="button" className="btn btn-primary mr-5" onClick={onSubmitForm}>Submit</button>
                 <button type="button" className="btn btn-default" onClick={showAddForm}>Cancel</button>
             </form>
     )
