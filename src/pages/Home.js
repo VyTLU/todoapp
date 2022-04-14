@@ -3,6 +3,11 @@ import { Form, ListItem, Search, Sort, Title } from '../components';
 import { MockAPI } from '../services';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
+import FormFunction from '../components/FormFunction';
+import ListItemFunction from '../components/ListItemFunction';
+import SortFunction from '../components/SortFunction';
+import SearchFunction from '../components/SearchFunction';
+import TitleFunction from '../components/TitleFunction';
 
 export default class Home extends Component {
 
@@ -68,7 +73,7 @@ export default class Home extends Component {
     }
 
     onEditedItem = (id, item) => {
-        const { title, level } = item || {};
+        const { titleEdit, levelEdit } = item || {};
         const { items = [], usedItems = [] } = this.state;
         const copyUsedItems = [...usedItems];
         const copyItems = [...items];
@@ -77,10 +82,10 @@ export default class Home extends Component {
         const foundItemIndex = items.findIndex(x=>x.id === id);
 
         if(!foundItem) return;
-        if(foundItem?.title === title && foundItem?.level === parseInt(level)) return;
+        if(foundItem?.title === titleEdit && foundItem?.level === parseInt(levelEdit)) return;
 
-        copyUsedItems[foundUsedItemIndex] = {level, title, id};
-        copyItems[foundItemIndex] = {level, title, id};
+        copyUsedItems[foundUsedItemIndex] = {level: levelEdit, title: titleEdit, id};
+        copyItems[foundItemIndex] = {level: levelEdit, title: titleEdit, id};
 
         this.setState({
             items: copyItems,
@@ -124,13 +129,13 @@ export default class Home extends Component {
         
         return (
             <div className="container">
-                <Title />
+                <TitleFunction />
                 <div className="row">
                     <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <Search onSearchItem={this.onSearchItem} />
+                        <SearchFunction onSearchItem={this.onSearchItem} />
                     </div>
                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <Sort onSortItem={this.onSortItem} changeLabel={this.state.label} />
+                        <SortFunction onSortItem={this.onSortItem} changeLabel={this.state.label} />
                     </div>
                     <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                         <button onClick={this.showAddForm} type="button" className="btn btn-info btn-block marginB10">Add Item</button>
@@ -138,10 +143,10 @@ export default class Home extends Component {
                 </div>
                 <div className="row marginB10">
                     <div className="col-md-offset-7 col-md-5">
-                        <Form show={showAdd} onAddItem={this.onAddItem} showAddForm={this.showAddForm} />
+                        <FormFunction show={showAdd} onAddItem={this.onAddItem} showAddForm={this.showAddForm} />
                     </div>
                 </div>
-                <ListItem data={usedItems} onDeleteItem={this.onDeleteItem} onEditedItem={this.onEditedItem} />
+                <ListItemFunction data={usedItems} onDeleteItem={this.onDeleteItem} onEditedItem={this.onEditedItem} />
             </div>
         )
     }

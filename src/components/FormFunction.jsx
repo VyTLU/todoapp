@@ -12,7 +12,11 @@ const FormFunction = ({
     
     const handleNameChange = (e) => setItem(e.target.value);
     const handleLevelChange = (e) => setLevel(e.target.value);
-    const onSubmitForm = () => {};
+    const onSubmitForm = () => {
+        if(item) onAddItem({item,level});
+        setItem('');
+        setLevel(0);
+    };
 
     if (!show) return null;
     return(
@@ -21,8 +25,8 @@ const FormFunction = ({
                     <input value={item} type="text" name='item' onChange={handleNameChange} className="form-control" placeholder="Item Name" />
                 </div>
                 <div className="form-group mr-5">
-                    <select name='level' onChange={handleLevelChange} className="form-control">
-                        {LEVEL_LIST.map(({ level: id, label }) => <option selected={level === id} key={id} value={id}>{label}</option>)}
+                    <select name='level' onChange={handleLevelChange} className="form-control" value={level}>
+                        {LEVEL_LIST.map(({ level: id, label }) => <option key={id} value={id}>{label}</option>)}
                     </select>
                 </div>
                 <button type="button" className="btn btn-primary mr-5" onClick={onSubmitForm}>Submit</button>
