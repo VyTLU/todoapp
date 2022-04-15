@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import { Form, ListItem, Search, Sort, Title } from '../components';
+import { TitleFunction, SearchFunction, SortFunction, FormFunction, ListItemFunction } from '../components';
 import { MockAPI } from '../services';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
-import FormFunction from '../components/FormFunction';
-import ListItemFunction from '../components/ListItemFunction';
-import SortFunction from '../components/SortFunction';
-import SearchFunction from '../components/SearchFunction';
-import TitleFunction from '../components/TitleFunction';
 
 export default class Home extends Component {
 

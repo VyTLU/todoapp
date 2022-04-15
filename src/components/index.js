@@ -1,7 +1,7 @@
-import Title from "./Title";
-import Search from "./Search";
-import Sort from "./Sort";
-import Form from "./Form";
-import ListItem from "./ListItem";
+import TitleFunction from "./TitleFunction";
+import SearchFunction from "./SearchFunction";
+import SortFunction from "./SortFunction";
+import FormFunction from "./FormFunction";
+import ListItemFunction from "./ListItemFunction";
 
-export { Title, Search, Sort, Form, ListItem }
+export { TitleFunction, SearchFunction, SortFunction, FormFunction, ListItemFunction }

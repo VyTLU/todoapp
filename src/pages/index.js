@@ -1,4 +1,3 @@
-import Home from './Home';
+import HomeFunction from './HomeFunction';
 
-
-export { Home }
+export { HomeFunction }
