@@ -3,6 +3,8 @@ export const SMALL_LEVEL = 1;
 export const MEDIUM_LEVEL = 2;
 export const HIGH_LEVEL = 3;
 
+export const GET_ITEMS = 'GET_ITEMS';
+
 export const LEVEL_LIST = [
     {
         level: LOW_LEVEL,

@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { createStore, combineReducers } from 'redux'
+import { homeReducer } from './home/homeReducer'
 
-const store = configureStore({
-    reducer: {
-
-    }
+const rootReducer = combineReducers({
+    home: homeReducer,
 })
+
+const store = createStore(rootReducer);
 
 export default store;

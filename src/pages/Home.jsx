@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Title, Search, Sort, Form, ListItem } from '../components'
+import { getItems } from '../redux'
 import { MockAPI } from '../services'
 import { v4 as uuidv4 } from 'uuid'
 import _ from 'lodash'
@@ -10,11 +12,13 @@ const Home = () => {
     const [showAdd, setShowAdd] = useState(false);
     const [searchItem, setSearchItem] = useState('');
     const [label, setLabel] = useState('NAME - DESC');
+    const check = useSelector(state => state.items);
+    const dispatch = useDispatch();
+    const data = useSelector((s)=> s.home.usedItems)
 
     useEffect(() => {
         MockAPI.getListTodo().then(res => {
-            setItems(res);
-            setUsedItems(res);
+            dispatch(getItems(res));
         })
     },[])
 
@@ -115,7 +119,7 @@ const Home = () => {
                     <Form show={showAdd} onAddItem={onAddItem} showAddForm={showAddForm} />
                 </div>
             </div>
-            <ListItem data={usedItems} onDeleteItem={onDeleteItem} onEditedItem={onEditedItem} />
+            <ListItem data={data} onDeleteItem={onDeleteItem} onEditedItem={onEditedItem} />
         </div>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Home } from './pages';
-import { store } from './redux/store'
+import store from './redux/store'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.createRoot(document.getElementById("root"))
