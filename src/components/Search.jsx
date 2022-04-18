@@ -1,39 +1,29 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
-export default class Search extends Component {
-    constructor(props) {
-        super(props);
+const Search = ({
+    onSearchItem = () => { }
+}) => {
+    const [searchItem, setSearchItem] = useState('');
 
-        this.state = {
-            searchItem: '',
-        }
-    }
-
-    handleInput = (e) => {
+    const handleInput = (e) => {
         const { value } = e.target;
-        const { onSearchItem = () => { } } = this.props;
-
-        this.setState({
-            searchItem: value,
-        }, onSearchItem(value))
+        setSearchItem(value);
+        onSearchItem(value);
     }
 
-    clearInput = () => {
-        this.setState({
-            searchItem: '',
-        })
+    const clearInput = () => {
+        setSearchItem('');
+        onSearchItem('');
     }
 
-    render() {
-        const { searchItem } = this.state;
-
-        return (
-            <div className="input-group">
-                <input value={searchItem} type="text" className="form-control" placeholder="Search item name" onChange={this.handleInput} />
-                <span className="input-group-btn">
-                    <button className="btn btn-info" type="button" onClick={this.clearInput}>Clear</button>
-                </span>
-            </div>
-        )
-    }
+    return (
+        <div className="input-group">
+            <input value={searchItem} type="text" className="form-control" placeholder="Search item name" onChange={handleInput} />
+            <span className="input-group-btn">
+                <button className="btn btn-info" type="button" onClick={clearInput}>Clear</button>
+            </span>
+        </div>
+    )
 }
+
+export default Search;

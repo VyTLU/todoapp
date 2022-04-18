@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { TitleFunction, SearchFunction, SortFunction, FormFunction, ListItemFunction } from '../components'
+import { Title, Search, Sort, Form, ListItem } from '../components'
 import { MockAPI } from '../services'
 import { v4 as uuidv4 } from 'uuid'
 import _ from 'lodash'
 
-const HomeFunction = () => {
+const Home = () => {
     const [items, setItems] = useState([]);
     const [usedItems, setUsedItems] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
@@ -98,13 +98,13 @@ const HomeFunction = () => {
 
     return (
         <div className="container">
-            <TitleFunction />
+            <Title />
             <div className="row">
                 <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <SearchFunction onSearchItem={onSearchItem} />
+                    <Search onSearchItem={onSearchItem} />
                 </div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <SortFunction onSortItem={onSortItem} changeLabel={label} />
+                    <Sort onSortItem={onSortItem} changeLabel={label} />
                 </div>
                 <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                     <button onClick={showAddForm} type="button" className="btn btn-info btn-block marginB10">Add Item</button>
@@ -112,12 +112,12 @@ const HomeFunction = () => {
             </div>
             <div className="row marginB10">
                 <div className="col-md-offset-7 col-md-5">
-                    <FormFunction show={showAdd} onAddItem={onAddItem} showAddForm={showAddForm} />
+                    <Form show={showAdd} onAddItem={onAddItem} showAddForm={showAddForm} />
                 </div>
             </div>
-            <ListItemFunction data={usedItems} onDeleteItem={onDeleteItem} onEditedItem={onEditedItem} />
+            <ListItem data={usedItems} onDeleteItem={onDeleteItem} onEditedItem={onEditedItem} />
         </div>
     )
 }
 
-export default HomeFunction;
+export default Home;
