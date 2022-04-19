@@ -1,16 +1,20 @@
 import React from 'react'
 import { LEVEL_LIST } from '../common/Constants'
+import { useDispatch } from 'react-redux'
+import { deleteItem, editItem } from '../store/actions'
 import Swal from 'sweetalert2'
 
 const RowItem = ({
     item = {},
     index = 0,
-    editItem = () => { },
+    // editItem = () => { },
     item: { id } = {},
-    deleteItem = () => { }
 }) => {
     const getLevel = (level) => LEVEL_LIST.find(x => x.level === Number(level));
-    const editItemBtn = () => editItem(id);
+    const dispatch = useDispatch();
+
+    const editItemBtn = () => dispatch(editItem(id));
+
     const deleteItemBtn = () => {
         Swal.fire({
             title: 'Are you sure?',
@@ -22,7 +26,7 @@ const RowItem = ({
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteItem(id);
+                dispatch(deleteItem(id));
                 Swal.fire(
                     'Deleted!',
                     'Your file has been deleted.',

@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+import { cancelEdit } from '../store/actions';
 import { LEVEL_LIST } from '../common/Constants'
+import { useDispatch } from 'react-redux';
 
 const RowItemEdit = ({
     item: { id, title, level } = {},
     index = 0,
-    cancelEdit = () => {},
+    // cancelEdit = () => {},
     save = () => {},
 }) => {
+    const dispatch = useDispatch();
     const [titleEdit, setTitle] = useState(title);
     const [levelEdit, setLevel] = useState(level);
 
@@ -22,8 +25,10 @@ const RowItemEdit = ({
 
     const saveBtn = () => {
         save(id, {titleEdit, levelEdit});
-        cancelEdit();
+        cancelBtn();
     }
+
+    const cancelBtn = () => dispatch(cancelEdit());
 
     return (
         <tr>
@@ -35,7 +40,7 @@ const RowItemEdit = ({
                 </select>
             </td>
             <td>
-                <button type="button" className="btn btn-default btn-sm mr-5" onClick={cancelEdit}>Cancel</button>
+                <button type="button" className="btn btn-default btn-sm mr-5" onClick={cancelBtn}>Cancel</button>
                 <button type="button" className="btn btn-success btn-sm" onClick={saveBtn}>Save</button>
             </td>
         </tr>

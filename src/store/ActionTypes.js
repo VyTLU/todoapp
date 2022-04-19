@@ -1,0 +1,10 @@
+export const FETCH_LIST_TODO = 'FETCH_LIST_TODO';
+export const FETCH_LIST_TODO_COMPLETED = 'FETCH_LIST_TODO_COMPLETED';
+export const FETCH_LIST_TODO_FAILED = 'FETCH_LIST_TODO_FAILED';
+
+export const SHOW_ADD_FORM = 'SHOW_ADD_FORM';
+
+export const DELETE_ITEM = 'DELETE_ITEM';
+export const EDIT_ITEM = 'EDIT_ITEM';
+
+export const CANCEL_EDIT = 'CANCEL_EDIT';

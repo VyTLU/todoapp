@@ -1,17 +1,17 @@
 import React, {useState} from 'react'
+import { useSelector } from 'react-redux';
 import RowItemEdit from './RowItemEdit';
 import RowItem from './RowItem';
 
 const ListItem = ({
     data = [],
     onEditedItem = () => {},
-    onDeleteItem = () => {},
 }) => {
-    const [editing, setEditing] = useState(null);
+    const editing = useSelector((s) => s.listItemReducer.editing);
+    // const [editing, setEditing] = useState(null);
 
-    const deleteItem = (e) => onDeleteItem(e);
-    const editItem = (id) => setEditing(id);
-    const cancelEdit = () => setEditing(null);
+    // const editItem = (id) => setEditing(id);
+    // const cancelEdit = () => setEditing(null);
 
     return(
         <div className="panel panel-success">
@@ -30,9 +30,9 @@ const ListItem = ({
                             data.map((item, index) => (
                                 editing !== item.id
                                 ?
-                                <RowItem item={item} index={index} key={item.id} deleteItem={deleteItem} editItem={editItem} />
+                                <RowItem item={item} index={index} key={item.id} />
                                 :
-                                <RowItemEdit item={item} index={index} key={item.id} cancelEdit={cancelEdit} save={onEditedItem} />)
+                                <RowItemEdit item={item} index={index} key={item.id} save={onEditedItem} />)
                             )
                         }
                     </tbody>

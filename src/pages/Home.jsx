@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Title, Search, Sort, Form, ListItem } from '../components'
-import { getItems } from '../redux'
-import { MockAPI } from '../services'
+import { getItems, setShowAdd } from '../store/actions'
 import { v4 as uuidv4 } from 'uuid'
 import _ from 'lodash'
 
 const Home = () => {
     const [items, setItems] = useState([]);
     const [usedItems, setUsedItems] = useState([]);
-    const [showAdd, setShowAdd] = useState(false);
     const [searchItem, setSearchItem] = useState('');
     const [label, setLabel] = useState('NAME - DESC');
-    const check = useSelector(state => state.items);
+
     const dispatch = useDispatch();
-    const data = useSelector((s)=> s.home.usedItems)
+    const data = useSelector((s)=> s.homeReducer.usedItems);
+    const showAdd = useSelector((s) => s.homeReducer.showAdd);
 
     useEffect(() => {
-        MockAPI.getListTodo().then(res => {
-            dispatch(getItems(res));
-        })
+        dispatch(getItems());
     },[])
 
-    const showAddForm = () => setShowAdd(!showAdd);
+    const showAddForm = () => dispatch(setShowAdd());
 
     const onAddItem = (value) => {
         const { item, level } = value;
@@ -47,13 +44,6 @@ const Home = () => {
 
         setSearchItem(value);
         setUsedItems(searchItems);
-    }
-
-    const onDeleteItem = (value) => {
-        const deletedItems = usedItems.filter(item => item.id !== value);
-
-        setItems(deletedItems);
-        setUsedItems(deletedItems);
     }
 
     const onEditedItem = (id, item) => {
@@ -119,7 +109,7 @@ const Home = () => {
                     <Form show={showAdd} onAddItem={onAddItem} showAddForm={showAddForm} />
                 </div>
             </div>
-            <ListItem data={data} onDeleteItem={onDeleteItem} onEditedItem={onEditedItem} />
+            <ListItem data={data} onEditedItem={onEditedItem} />
         </div>
     )
 }
